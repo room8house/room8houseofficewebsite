@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Room8心寓官方網站</title>
+<meta name="description" content="Room8 心寓：看完短影音輸入留言關鍵字，領取租屋、房東查稅、最新版住宅契約等清單；府中商務中心辦公室出租、預約看房、房東委託包租代管代租。">
+<meta property="og:title" content="Room8心寓官方網站">
+<meta property="og:description" content="輸入影片留言關鍵字領清單、預約看房、委託我們管理你的房子。">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2a2a2c">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: friendly neighbourhood landlord — bold, direct, practical
+   IDEA: the building's lobby mailbox directory — type your keyword, open your box
+   PICTURE: two-column photo wall drifting up and down
+   COLOUR and TYPE: Room8 logo lemon #fff453 field, charcoal #2a2a2c support, white accent; Noto Sans TC 900/400
+   LAYOUT: hero = lookup + photo wall; library grid; listing; booking form; footer */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0f0f0f);--ink:light-dark(#2a2a2c,#f4f4f4);--mute:light-dark(#5c5c5c,#b3b3b3);
+--brick:#fff453;--brick2:light-dark(#2a2a2c,#fff453);--sky:light-dark(#fff4bf,#1d1a08);--sun:#fff453;
+--card:light-dark(#fff,#1a1a1a);--line:light-dark(#e8e3cf,#333);--soft:light-dark(#faf8ef,#161616)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC",system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+h1,h2,h3{line-height:1.12;text-wrap:balance;margin:0;font-weight:900}
+h1{font-size:clamp(32px,5vw,50px)}h2{font-size:clamp(26px,3.4vw,36px);margin-bottom:8px}h3{font-size:20px}
+.lead{color:var(--mute);max-width:62ch;margin:6px 0 22px}
+nav{position:sticky;top:0;z-index:5;background:#2a2a2c;border-bottom:1px solid #3a3a3c}
+nav .wrap{display:flex;align-items:center;gap:18px;padding:10px max(5vw,16px);flex-wrap:wrap}
+.logo{font-weight:900;font-size:20px;text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo img{display:block;height:48px;width:auto}@media(max-width:600px){.hero .showcase{order:2;gap:10px}.showcase .sc-cta{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.hero .reel .track{animation-duration:calc(var(--n) * 8s)!important}.showcase .sc-cta small{font-size:13px}.showcase .sc-cta a{font-size:15px;line-height:1.45;padding:8px 12px;display:flex;flex-direction:column;justify-content:center}.gwrap .badge{font-size:12px;padding:4px 10px;left:10px;top:12px}.hero .gallery.reel{aspect-ratio:3/2.3}.hero .reel .track{gap:8px}.logo img{height:40px}}
+.logo b{background:#2a2a2c;color:#fff453;border-radius:6px;padding:0 8px}
+nav .links{display:flex;gap:16px;margin-left:auto;flex-wrap:wrap;font-size:15px}
+nav .links a{text-decoration:none;color:#ddd}nav .links a:hover{color:#fff453}
+.hero{background:#fff453;color:#2a2a2c}
+.hero :focus-visible{outline-color:#2a2a2c}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center}
+.hero .lead{color:#3d3500}
+.showcase{display:grid;gap:14px}
+.gwrap{position:relative}
+.badge{position:absolute;left:14px;top:18px;z-index:2;background:#2a2a2c;color:#fff453;font-weight:700;font-size:14px;padding:6px 14px;border-radius:99px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.sc-cta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sc-cta a{background:#fff;color:#2a2a2c;text-decoration:none;font-weight:700;font-size:15px;line-height:1.4;border-radius:12px;padding:12px 14px;min-height:44px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.sc-cta a:hover{background:#2a2a2c;color:#fff453}
+.nw{white-space:nowrap}
+.sc-cta .go{display:block;margin-top:2px;text-decoration:underline;text-decoration-color:#fff453;text-decoration-thickness:3px;text-underline-offset:3px}
+.sc-cta small{display:block;font-size:12px;font-weight:500;opacity:.7;margin-bottom:2px}
+/* 照片集：slide = 單張 3:2 輪播 */
+.gallery.slide{position:relative;width:100%;aspect-ratio:3/2;overflow:hidden;border-radius:18px;box-shadow:0 14px 30px rgba(0,0,0,.18);background:#2a2a2c}
+.slide .track{height:100%;transition:transform .7s cubic-bezier(.65,0,.35,1)}
+.slide .track.jump{transition:none}
+.slide .ph{height:100%;width:100%}
+.dots{position:absolute;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px}
+.dots button{width:12px;height:12px;min-height:0;padding:0;border-radius:99px;background:rgba(255,255,255,.7);border:2px solid #2a2a2c;transition:height .3s}
+.dots button[aria-current=true]{background:#fff453;height:28px}
+/* 照片集：wall = 兩欄上下滾動 */
+.gallery.wall{position:relative;height:clamp(340px,42vw,500px);display:grid;grid-template-columns:1fr 1fr;gap:12px;overflow:hidden;border-radius:18px;-webkit-mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent)}
+.wall .gcol{overflow:hidden}
+.wall .track{display:flex;flex-direction:column;gap:12px;animation:gup 28s linear infinite}
+.wall .gcol.down .track{animation-name:gdown;animation-duration:34s}
+.wall:hover .track{animation-play-state:paused}
+@keyframes gup{from{transform:translateY(0)}to{transform:translateY(calc(-50% - 6px))}}
+@keyframes greel{from{transform:translateY(0)}to{transform:translateY(calc(-50% - 7px))}}
+@keyframes gdown{from{transform:translateY(calc(-50% - 6px))}to{transform:translateY(0)}}
+.wall .ph{flex:none;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+/* 照片集：reel = 單欄 3:2 照片連續上下滾動 */
+.gallery.reel{position:relative;width:100%;aspect-ratio:3/2.6;overflow:hidden;border-radius:18px;-webkit-mask-image:linear-gradient(transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(transparent,#000 5%,#000 95%,transparent)}
+.reel .track{display:flex;flex-direction:column;gap:14px;animation:greel 32s linear infinite}
+.reel:hover .track{animation-play-state:paused}
+.reel .ph{flex:none;width:100%;aspect-ratio:3/2;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.ph{display:flex;align-items:flex-end;padding:14px;font-weight:700;font-size:14px;background-size:cover;background-position:center}
+.ph span{background:rgba(255,255,255,.85);color:#2a2a2c;border-radius:99px;padding:3px 10px}
+.lookup{background:#fff;color:#2a2a2c;border-radius:16px;padding:16px;box-shadow:0 14px 30px rgba(0,0,0,.22)}
+.lookup label{font-weight:700;font-size:15px}
+.row{display:flex;gap:8px;margin-top:8px}
+input,select,textarea{font:inherit;font-size:16px;padding:11px 14px;border:2px solid #ddd6bd;border-radius:10px;width:100%;background:#fff;color:#2a2a2c;min-height:46px}
+input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+button,.btn{font:inherit;font-weight:700;min-height:46px;padding:10px 18px;border-radius:10px;border:0;cursor:pointer;background:var(--ink);color:var(--bg);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+.lookup button{background:#2a2a2c;color:#fff453}
+.kwbox{position:relative;flex:1;display:block}.kwbox svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#8a8578;pointer-events:none}.kwbox input{padding-left:44px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{background:#fffbb8;color:#2a2a2c;border-radius:99px;padding:6px 14px;min-height:36px;font-weight:500;font-size:14px}
+#result{margin-top:14px}
+.res{border-top:2px dashed #e8e1c4;padding-top:14px}
+.res h3{color:#2a2a2c}
+.srcs{font-size:13px;line-height:1.8;color:#5c5c5c;margin:28px 0 0;padding-top:16px;border-top:1px solid #e8e1c4}.srcs a{color:#2a2a2c;font-weight:700}
+.res h4{font-size:17px;margin:18px 0 4px}.res p{margin:6px 0}.res .mute{font-size:14px;color:#5c5c5c}
+.res p,.res li,.paper h1{text-wrap:pretty}
+.tipbox{background:#fffbd6;border-left:4px solid #fff453;padding:8px 12px;border-radius:6px;font-size:14px}
+.res ol.chk{list-style:none;padding-left:0}.res ol.chk li{padding-left:1.6em;position:relative}.res ol.chk li::before{content:"□";position:absolute;left:0}
+.scroll{overflow-x:auto}table.tx{min-width:620px;font-size:14px;background:#fff;margin:8px 0}table.tx th{background:#2a2a2c;color:#fff453;font-size:13px}table.tx td{vertical-align:top}
+.lv{background:var(--soft)}
+.paper{max-width:860px;margin:0 auto;background:#fff;color:#2a2a2c;border-radius:16px;padding:clamp(20px,4vw,44px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.paper h1{font-size:clamp(28px,4vw,40px);margin:10px 0 14px}
+.paper .res{border-top:2px dashed #e8e1c4;padding-top:10px;margin-top:16px}
+.paper .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.back{display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:#2a2a2c;text-decoration:none;border-bottom:3px solid #fff453}
+.kwtag{display:inline-block;background:#fff453;color:#2a2a2c;font-weight:700;font-size:14px;border-radius:99px;padding:4px 12px;margin-top:10px}
+a.chip{text-decoration:none;display:inline-flex;align-items:center}
+@media(max-width:600px){#grid .card{display:grid;grid-template-columns:minmax(0,1fr) 76px;column-gap:14px;row-gap:6px;align-items:start}#grid .card>*{grid-column:1}#grid .card .ghost2{grid-column:2;grid-row:1/span 3;align-self:center;width:76px;height:76px;padding:6px;flex-direction:column;gap:2px;white-space:normal;font-size:13px;line-height:1.3;margin:0;font-size:15px}}
+#grid .card .ghost2{background:light-dark(var(--soft),#f2efe2);color:light-dark(var(--ink),#2a2a2c);border-color:light-dark(var(--line),#f2efe2)}
+#rooms .feat li,#rooms table{background:light-dark(var(--card),#d9d4c3);color:light-dark(var(--ink),#2a2a2c)}
+#rooms td,#rooms th{border-color:light-dark(var(--line),#c4bea9)}
+#rooms.band{padding-top:clamp(20px,2.5vw,36px);padding-bottom:clamp(20px,2.5vw,36px)}
+.mbr{display:none}@media(max-width:600px){.mbr{display:inline}}
+.card .ghost2{margin-top:auto;align-self:flex-start;background:var(--soft);color:var(--ink);border:1px solid var(--line);min-height:44px;gap:0}
+@media(max-width:600px){.paper .scroll{overflow:visible}table.tx{min-width:0;background:none}table.tx thead{display:none}table.tx tr{display:block;background:#fff;border:1px solid #e8e1c4;border-radius:10px;padding:8px 12px;margin-bottom:8px}table.tx td{display:block;border:0;padding:3px 0}table.tx td::before{content:attr(data-l);display:block;font-size:12px;font-weight:700;color:#8a8578}table.tx td:first-child{font-weight:700;font-size:15px}table.tx td:first-child::before{display:none}}
+.res ol{padding-left:1.3em;margin:8px 0}.res li{margin:4px 0}
+.res .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ghost{background:#f2efe2;color:#2a2a2c}
+.line{background:#06c755;color:#fff}
+.miss{color:#5c5c5c}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.card .kw{font-size:13px;color:var(--brick2);font-weight:700}
+.card p{margin:0;color:var(--mute);font-size:15px}
+.card button{margin-top:auto;align-self:flex-start;background:var(--soft);color:var(--ink);border:1px solid var(--line);min-height:44px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.filters button{background:var(--soft);color:var(--ink);border:1px solid var(--line);min-height:40px;padding:6px 14px;font-weight:500}
+.filters button[aria-pressed=true]{background:#fff453;color:#2a2a2c;border-color:#2a2a2c}
+.listing{background:var(--sky)}
+.lst{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px 24px;align-items:start}
+.price{font-size:clamp(34px,5vw,48px);font-weight:900;white-space:nowrap}
+.price small{font-size:16px;font-weight:500;color:var(--mute)}
+table{border-collapse:collapse;width:100%;background:var(--card);border-radius:12px;overflow:hidden}
+td,th{padding:10px 14px;border-bottom:1px solid var(--line);text-align:left}
+td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.feat{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:8px}
+#feat{grid-template-columns:repeat(2,minmax(0,1fr))}
+#featMore{display:none}
+@media(max-width:600px){#feat{grid-template-columns:minmax(0,1fr)}.feat.fold li:nth-child(n+4){display:none}#featMore{display:flex}}
+.pair{display:flex;gap:10px;margin-bottom:0}.pair .btn{flex:1 1 0;padding-inline:10px}
+@media(max-width:600px){.pair .btn{font-size:14px}}
+.more{display:flex;margin:6px auto 0;background:none;border:0;padding:8px 0;min-height:44px;color:var(--mute);font-weight:700;font-size:15px;gap:6px}
+.more:hover{color:var(--ink)}
+.more::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.more[aria-expanded=true]::after{transform:translateY(2px) rotate(-135deg)}
+.feat li{background:var(--card);border-radius:10px;padding:10px 12px;font-size:15px}
+.note{font-size:13px;color:var(--mute);margin-top:12px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;counter-reset:s}
+.step{border-left:6px solid #fff453;padding:4px 0 4px 14px}
+.step b{display:block;font-size:18px}
+form.book{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:760px}
+form.book .full{grid-column:1/-1}
+form.book label{font-weight:700;font-size:15px;display:grid;gap:6px}
+#bookOut{grid-column:1/-1}
+.sub{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.sub[hidden]{display:none}
+.sub .full{grid-column:1/-1}
+fieldset{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px 18px}fieldset legend{font-weight:700;font-size:15px;padding:0;margin-bottom:6px;width:100%}
+form.book label.ck{display:inline-flex;align-items:center;gap:8px;font-weight:500;min-height:44px}
+.ck input{width:22px;height:22px;min-height:0;accent-color:#2a2a2c}
+.callout{font-size:clamp(17px,2vw,20px);font-weight:700;line-height:1.6;margin:10px 0 18px;color:var(--ink)}
+.callout mark{background:linear-gradient(transparent 55%,#fff453 55%);color:inherit;padding:0 2px}
+:root[data-theme=dark] .callout mark{background:#fff453;color:#2a2a2c;border-radius:4px}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .callout mark{background:#fff453;color:#2a2a2c;border-radius:4px}}
+.rules{display:flex;width:fit-content;flex-wrap:wrap;gap:8px 18px;align-items:center;background:#fff453;color:#2a2a2c;border-radius:12px;padding:12px 16px;margin-bottom:22px;max-width:760px}
+.rules span::before{content:"・"}
+@media(max-width:600px){.rules{display:grid;grid-template-columns:auto auto;column-gap:14px;row-gap:4px;align-items:start}.rules b{grid-row:1/span 2}.rules span{grid-column:2;font-size:14px;padding-left:1em;text-indent:-1em}}
+.warn{color:#b3261e;font-weight:700;margin:0}
+[hidden]{display:none!important}
+.quick{display:flex;flex-wrap:wrap;gap:10px}
+.tg{background:var(--card);color:var(--ink);border:2px solid var(--line);font-weight:700;min-height:44px}
+.tg[aria-pressed=true]{background:#fff453;color:#2a2a2c;border-color:#2a2a2c}
+.tip{margin:6px 0 0;width:100%;font-size:14px;color:var(--mute)}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px;width:100%}
+.day{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:6px}
+.day.we{border-color:light-dark(#ece08a,#5a5320);background:light-dark(#fffbd6,#2b2810)}
+.day b{font-size:15px;white-space:nowrap}.day b small{color:var(--mute);font-weight:500}
+.day .ap{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.day .tg{min-height:40px;padding:6px 0;font-size:14px;border-width:1px}
+.out{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:14px;white-space:pre-wrap;font-size:15px}
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
+.who .card{border-top:6px solid #fff453}
+.who .card .btn{margin-top:auto;align-self:flex-start}
+.who .soon{opacity:.65}.who .soon .btn{background:var(--soft);color:var(--mute);border:1px dashed var(--line);cursor:default}
+.socials{display:flex;flex-wrap:wrap;gap:10px}
+.socials a,.socials span{display:inline-flex;align-items:center;min-height:46px;padding:10px 20px;border-radius:99px;border:2px solid var(--ink);font-weight:700;text-decoration:none;white-space:nowrap}
+.socials a:hover{background:#fff453;color:#2a2a2c;border-color:#2a2a2c}
+.socials span{border-style:dashed;color:var(--mute);border-color:var(--line);font-weight:500}
+.socials.mini{margin-top:12px}.socials.mini a,.socials.mini span{min-height:40px;padding:6px 14px;border-color:#555;color:#eee;font-size:14px}
+.socials.mini span{color:#888}
+footer{background:#2a2a2c;color:#eee;border-top:6px solid #fff453}
+footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between}
+.legal{flex-basis:100%;border-top:1px solid #444;padding-top:14px;font-size:13px;line-height:1.9;color:#bdbdbd;display:flex;flex-wrap:wrap;gap:2px 22px}.legal span{white-space:nowrap}
+footer small{color:#9a9a9a}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(80px);background:#2a2a2c;color:#fff453;padding:10px 18px;border-radius:99px;transition:transform .25s;z-index:9}
+.toast.on{transform:translateX(-50%)}
+@media(prefers-reduced-motion:reduce){.toast{transition:none}.track{transition:none!important;animation:none!important}}
+@media(max-width:860px){.hero .wrap,.lst{grid-template-columns:minmax(0,1fr)}.showcase{order:-1}.gallery.wall{height:300px}}
+@media(max-width:600px){.sc-cta a{font-size:14px;padding:10px 12px}form.book,.sub{gap:12px 10px}form.book .mfull{grid-column:1/-1}form.book label{font-size:14px}.row{flex-direction:column}nav .links{margin-left:auto;gap:12px;justify-content:flex-end}table{font-size:14px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="logo" href="#top"><img src="logo-h.png" alt="Room8 Dream House 心寓" width="160" height="48"></a>
+  <div class="links"><a href="#lists">資訊清單</a><a href="#rooms">空間出租</a><a href="#book">預約看房</a><a href="#contact">聯絡我們</a></div>
+</div></nav>
+
+<section class="band lv" id="listView" hidden><div class="paper">
+  <a class="back" href="#lists">← 回到所有清單</a>
+  <div id="listBody"></div>
+  <p style="margin-top:28px"><a class="back" href="#" id="toTop">↑ 回到最上面</a>　<a class="back" href="#book">預約看房</a>　<a class="back" id="ownerCta2" target="_blank" rel="noopener" href="#contact">委託我們</a></p>
+</div></section>
+<header class="hero band" id="top"><div class="wrap">
+  <div>
+    <h1>看完影片，<br>輸入留言關鍵字領清單</h1>
+    
+    <div class="lookup" style="margin-top:22px">
+      
+      <div class="row" style="margin-top:0"><span class="kwbox"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><input id="kw" type="search" aria-label="搜尋影片裡說的關鍵字" placeholder="搜尋關鍵字" autocomplete="off" enterkeyhint="search"></span><button id="go">打開清單</button></div>
+      <div class="chips" id="chips"></div>
+      <div id="result" aria-live="polite"></div>
+          </div>
+  </div>
+  <div class="showcase">
+    <div class="gwrap"><div class="gallery" id="gallery" aria-label="Room8 改造後的客房實拍照片"></div><div class="badge">改造後・客房實拍</div></div>
+    <div class="sc-cta">
+      <a href="#book"><small>我是房客</small>想住這樣的房間？<span class="go">預約看房 →</span></a>
+      <a id="ownerCta" target="_blank" rel="noopener" href="#contact"><small>我是房東</small>想讓房子也變身？<span class="go">委託我們 →</span></a>
+    </div>
+  </div>
+</div></header>
+
+<section class="band" id="lists"><div class="wrap">
+  <h2>影片提到的資訊清單</h2>
+  <p class="lead">每份清單都有自己的連結，可以貼在影片說明欄或置頂留言，觀眾點了直接打開。</p>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section class="band listing" id="rooms"><div class="wrap">
+  <h2>府中商務中心｜板橋共享辦公室出租</h2>
+  <p class="lead">全新裝潢的 1～10 人獨立辦公室，可辦工商登記、配合帳務、法律諮詢。<br>新北市板橋區四川路一段，府中捷運站步行約 10 分鐘。</p>
+  <div class="lst">
+    <div>
+      <div class="price">$8,900<small> / 月起（獨立辦公室）</small></div>
+      <ul class="feat fold" id="feat">
+        <li>租金含水電、管理費、高速網路</li><li>人體工學辦公桌椅</li><li>獨立冷氣、電子門禁</li>
+        <li>20 人會議室（每月可預約 10 小時）</li><li>3 人錄音室（時租優惠）</li><li>洽談區、信箱服務</li><li>24 小時監控</li>
+        <li>中華電信寬頻、全區 WiFi</li><li>冰箱、微波爐、RO 飲水機</li><li>專人清潔、垃圾清運</li>
+      </ul>
+      <button type="button" class="more" id="featMore" aria-expanded="false" aria-controls="feat">顯示更多</button>
+    </div>
+    <div>
+      <table>
+        <thead><tr><th>方案</th><th style="text-align:right">月租</th></tr></thead>
+        <tbody>
+          <tr><td>擴張室 A03</td><td class="n">$11,900</td></tr>
+          <tr><td>成長室 A05</td><td class="n">$9,900</td></tr>
+          <tr><td>起步室 A06・5 坪</td><td class="n">$8,900</td></tr>
+          <tr><td>虛擬辦公室（借址登記）<br><small>限時優惠</small></td><td class="n">$1,700</td></tr>
+        </tbody>
+      </table>
+      <p class="note">押金兩個月，最短租期一年，可隨時預約看房。帶看免費，成交收取服務費。資料整理自 591 刊登（R21899331），價格與空位以實際洽詢為準。</p>
+      <p class="pair"><a class="btn" style="background:#2a2a2c;color:#fff453" href="#book" id="roomBook">預約參觀</a><a class="btn ghost" href="https://business.591.com.tw/rent/21899331" target="_blank" rel="noopener">在 591 看完整物件</a></p>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="book" style="background:var(--soft)"><div class="wrap">
+  <h2>預約看房／參觀工作室</h2>
+  <p class="callout">一次填好我們需要的資料，按<mark>「產生預約訊息」</mark>複製貼到 LINE，我們幫你安排。</p>
+  <div class="rules"><b>入住提醒</b><span>屋內禁菸、禁八大行業</span><span>帶看免服務費，成交收取服務費</span></div>
+  <form class="book" id="bookForm">
+    <label class="full">想看的空間<select id="bType"><option>住宅租屋</option><option>商務／辦公空間</option><option>房東委託出租／代管</option></select></label>
+    <div class="full sub" id="officeBox" hidden>
+      <label>1. 從事行業<input id="oCo" placeholder="設計、電商、顧問…"></label>
+      <label>2. 租借內容<select id="oType"><option value="">請選擇</option><option>承租辦公室</option><option>承租辦公室（借址登記）</option></select></label>
+    </div>
+    <label class="full" id="landBox" hidden><span>1. 委託方式</span><select id="lType"><option value="">請選擇</option><option>包租（由我們承租後轉租，每月固定收租）</option><option>代管（協助出租並負責日常管理）</option><option>代租（協助找到房客、完成簽約）</option><option>還不確定，想先了解</option></select></label>
+    <label><span id="lName">1. 姓名</span><input id="bName" required placeholder="王小明" autocomplete="name"></label>
+    <label><span id="lTel">2. 電話</span><input id="bTel" required type="tel" inputmode="tel" placeholder="0912-345-678" autocomplete="tel"></label>
+    <div class="full sub" id="tenantBox">
+      <label>3. 職業<input id="bJob" placeholder="上班族／學生"></label>
+      <label>4. 年齡<input id="bAge" type="number" inputmode="numeric" min="16" max="99" placeholder="28"></label>
+      <label>5. 是否抽菸<select id="bSmoke"><option value="">請選擇</option><option>否</option><option>是</option></select></label>
+      <label>6. 是否養寵物<select id="bPet"><option value="">請選擇</option><option>否</option><option>有</option></select></label>
+      <label class="full" id="petWrap" hidden>寵物種類與數量<input id="bPetNote" placeholder="例如：貓 1 隻"></label>
+      <label>7. 入住人數<input id="bPpl" type="number" inputmode="numeric" min="1" max="10" placeholder="1"></label>
+      <label>8. 預計入住日<input id="bDate" type="date"></label>
+      <label id="relWrap" class="full" hidden>9. 與同住人的關係<input id="bRel" placeholder="伴侶／家人／朋友"></label>
+      <label>10. 預計租期<select id="bTerm"><option value="">請選擇</option><option>半年</option><option>一年</option><option>兩年</option><option>兩年以上</option></select></label>
+      <label>11. 每月預算<input id="bBudget" inputmode="numeric" placeholder="例如：8,000–10,000"></label>
+      <fieldset class="full"><legend>12. 其他需求</legend><label class="ck"><input type="checkbox" value="報稅" class="bNeed">報稅</label><label class="ck"><input type="checkbox" value="租補" class="bNeed">租補</label><label class="ck"><input type="checkbox" value="入戶籍" class="bNeed">入戶籍</label></fieldset>
+    </div>
+    <fieldset class="full" id="timeBox"><legend>方便看房時段（可複選）</legend>
+      <div class="quick" id="quick"><button type="button" class="tg" data-q="平日皆可" aria-pressed="false">平日皆可</button><button type="button" class="tg" data-q="週末皆可" aria-pressed="false">週末皆可</button></div>
+      <p class="tip">或指定日期，點「上午」「下午」選時段，兩個都可以選：</p>
+      <div class="days" id="days"></div>
+    </fieldset>
+    <label class="full">其他補充<input id="bNote" placeholder="看哪支影片來的、想問的事"></label>
+    <p class="full warn" id="bWarn" hidden></p>
+    <div class="full" style="display:flex;gap:10px;flex-wrap:wrap"><button type="submit">產生預約訊息</button><a class="btn line" id="lineBtn2" href="#" target="_blank" rel="noopener">開啟 LINE</a></div>
+    <div id="bookOut"></div>
+  </form>
+</div></section>
+
+<section class="band" id="contact"><div class="wrap">
+  <h2>找對的窗口，回覆更快</h2>
+  <p class="lead">依你的身份加對應的 LINE 官方帳號，由負責的專人回覆。</p>
+  <div class="who" id="who"></div>
+  <h3 style="margin:34px 0 12px">追蹤我們，新影片、新資訊、新房源第一時間看到</h3>
+  <div class="socials" id="socials"></div>
+</div></section>
+
+<footer class="band"><div class="wrap">
+  <div><img src="logo-h.png" alt="Room8 Dream House" width="220" height="65" style="display:block;margin-bottom:8px;height:auto;max-width:100%"><small>工作室・商務空間・租售服務</small></div>
+  <div>林小姐 <span id="tel1"></span>　徐先生 <span id="tel2"></span><div class="socials mini" id="socials2"></div></div>
+  <small style="flex-basis:100%">資訊清單為一般性整理，法規與補助以政府最新公告為準。</small>
+  <div class="legal" id="legal"></div>
+</div></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+{
+/* ====== 這裡改設定 ====== */
+const CONTACT={tel1:'0970-552-234',tel2:'0937-376-764'};
+/* LINE 官方帳號：網址留空 '' 會顯示「即將開放」 */
+const LINES={
+ tenant:  {name:'住宅房客',who:'我想租屋',desc:'找住宅、看房問題都可以問。',url:'https://lin.ee/SPkkwhm'},
+ office:  {name:'商辦房客',who:'我想租工作室／辦公室',desc:'商務空間、辦公室租賃諮詢。',url:'https://lin.ee/SfdkEYl'},
+ landlord:{name:'房東專線',who:'我是房東',desc:'委託出租、代租代管、房屋買賣諮詢。',url:'https://lin.ee/UbRJmv5'}
+};
+/* 照片集樣式：'reel' 單欄 3:2 連續滾動、'wall' 兩欄上下滾動、'slide' 單張 3:2 輪播 */
+const GALLERY_MODE='reel';
+/* 首頁照片集：照片放在 photos/ 資料夾，img 留空就顯示色塊 */
+const PHOTOS=[
+ {label:'Room8 房間照片 1',color:'#2a2a2c',img:'photos/01.jpg'},
+ {label:'Room8 房間照片 2',color:'#2a2a2c',img:'photos/02.jpg'},
+ {label:'Room8 房間照片 3',color:'#2a2a2c',img:'photos/03.jpg'},
+ {label:'Room8 房間照片 4',color:'#2a2a2c',img:'photos/04.jpg'},
+ {label:'Room8 房間照片 5',color:'#2a2a2c',img:'photos/05.jpg'},
+ {label:'Room8 房間照片 6',color:'#2a2a2c',img:'photos/06.jpg'},
+ {label:'Room8 房間照片 7',color:'#2a2a2c',img:'photos/07.jpg'},
+ {label:'Room8 房間照片 8',color:'#2a2a2c',img:'photos/08.jpg'},
+ {label:'Room8 房間照片 9',color:'#2a2a2c',img:'photos/09.jpg'},
+ {label:'Room8 房間照片 10',color:'#2a2a2c',img:'photos/10.jpg'},
+ {label:'Room8 房間照片 11',color:'#2a2a2c',img:'photos/11.jpg'},
+ {label:'Room8 房間照片 12',color:'#2a2a2c',img:'photos/12.jpg'},
+ {label:'Room8 房間照片 13',color:'#2a2a2c',img:'photos/13.jpg'},
+ {label:'Room8 房間照片 14',color:'#2a2a2c',img:'photos/14.jpg'},
+ {label:'Room8 房間照片 15',color:'#2a2a2c',img:'photos/15.jpg'}
+];
+/* 591 物件連結：審核通過或有刊登後填入網址，留空就不顯示 */
+const LINK591='';
+const SOCIAL=[
+ {name:'Facebook',url:'https://www.facebook.com/profile.php?id=61551831242975'},
+ {name:'Instagram',url:'https://www.instagram.com/room8house_office/'},
+ {name:'YouTube',url:'https://www.youtube.com/@room8house'},
+ {name:'591 物件',url:LINK591,hide:true}
+];
+/* off:true 的清單暫時隱藏，拿掉 off:true 就會重新顯示 */
+const ALL_LISTS=[
+ {off:true,id:'viewing',kw:['看房','看屋','檢查'],cat:'租屋',title:'看房必看 12 件事',desc:'第一次看房最容易漏看的地方，一張清單帶著走。',items:['白天、晚上各去一次，聽噪音、看採光','打開所有水龍頭，看水壓和熱水多久來','看天花板、牆角、櫃子後有沒有壁癌水痕','測手機訊號，問網路是哪家、多少速度','電費怎麼算：台電計價還是每度固定價','冷氣品牌與年份，有沒有定期清洗','門鎖、窗戶、陽台的安全狀況','垃圾怎麼丟：代收還是追垃圾車','管理費包含什麼、包裹誰收','能不能養寵物、開伙、入籍、報稅','附近通勤：捷運／公車走幾分鐘','拍照錄影存檔，入住點交時用']},
+ {id:'contract',kw:['租約','簽約','合約','押金'],cat:'租屋',title:'簽約前確認清單',desc:'簽名前花 10 分鐘對一遍，押金、修繕、電費依法規整理。',items:['確認對方是屋主本人，或有屋主出具的授權書','核對謄本上的地址、所有權人與合約是否一致','押金依法不得超過 2 個月租金總額','退租時房東應返還押金，或扣抵欠租等租約債務後，返還剩餘押金','契約審閱期至少 3 天，可以先帶回去看清楚再簽','簽約前房東應說明哪些由房東負責修繕，並提供修繕聯絡方式','合約不得禁止或限制房客申請租金補貼','電費由房客負擔時，每度不得超過台電當月最高級距的每度金額','租期、租金、繳費日、管理費與水電分攤都寫清楚','附屬設備清單與現況照片一起附在合約後面','發生租屋爭議，可向縣市政府申請調處，免繳調處費用'],upd:'2026 年 11 月',src:[{t:'租賃住宅市場發展及管理條例（第 7、8、16 條）',u:'https://laws.gov.taipei/law/LawSearch/LawArticleContent/FL087224'},{t:'住宅租賃定型化契約應記載及不得記載事項（行政院）',u:'https://www.ey.gov.tw/Page/DFB720D019CCCB0A/478917df-7599-418f-8715-fd2716b623b4'}]},
+ {id:'subsidy',kw:['租補','補貼','租金補貼'],cat:'租屋',title:'租金補貼申請重點',desc:'中央 300 億元擴大租金補貼的資格、文件與注意事項。',items:['今年度（115 年度）受理到 2026/12/31 下午 5 點，名額 75 萬戶，額滿提早截止','明年（116 年度）內政部已表示經費仍由中央負擔，申請細節以國土署公告為準','資格：中華民國國民、年滿 18 歲','本人、配偶與未成年子女都沒有自有住宅，且沒有領其他住宅補貼','家庭所得需符合租屋所在縣市的標準，可先上官網試算','房子必須是合法建築：有房屋稅籍且已保存登記，或有合法證明文件；頂樓加蓋、違建的新申請不受理','租約要是定期租約，申請日已起租或 60 天內起租，電子租約也可以','準備文件：租約影本（或電子契約）、本人金融帳戶證明，必要時附身分證明','補貼金額每月約 2,000～8,000 元，依縣市不同；新婚、育兒家庭另有加碼','以線上申請為主，也可郵寄或到縣市政府臨櫃辦理','受理後 3 個月內審查，核定後按月撥款，並追溯到申請日','房東不能在合約中禁止房客申請租金補貼'],upd:'2026 年 11 月',src:[{t:'國土管理署｜300 億元中央擴大租金補貼專區',u:'https://has.nlma.gov.tw/house300e/'},{t:'內政部新聞稿｜租金補貼相關公告',u:'https://www.moi.gov.tw/News_Content.aspx?n=8&s=338232'}]},
+ {id:'tax',kw:['查稅','房東','房屋稅'],cat:'房東',title:'房東合規自查清單',desc:'財政部房東查稅開跑，花 10 分鐘把稅務、租約、押金電費、修繕、優惠 5 大類勾完。',
+  intro:'財政部第 4 波房東查稅開跑，花 10 分鐘勾完下面 5 大類，沒打勾的優先處理。',
+  tip:'各縣市的地方稅率和減徵規定略有差異，下面以全國通則為主，申請前請向房屋所在地的稅務局確認。',
+  groups:[
+   {h:'一、稅務：誠實申報，反而比較省',p:'房屋稅 2.0 自 113 年 7 月施行，非自住住家用房屋採全國歸戶、差別稅率（多數縣市 3.2%～4.8%）。出租並申報租賃所得達當地一般租金標準，就能降到 1.5%～2.4%。',items:[
+    ['每年 5 月報稅時，有把租金收入全額列入綜所稅','租賃所得＝租金收入減必要費用；沒有單據可直接扣 43%，有房貸利息、修繕費等證明也可以列舉扣除，兩種擇高。'],
+    ['押金有設算利息一起申報','押金要按郵局一年期定儲利率設算租賃收入（114 年度為 1.725%），很多房東漏報這一項。'],
+    ['租金達到當地一般租金標準','標準按房屋評定現值的一定比率加公告土地現值 1.2% 計算，比率各縣市、各年度不同；不少稅務局網站有試算工具。'],
+    ['每年 3 月 22 日前，有向地方稅務局申請出租優惠稅率','「向國稅局報租賃所得」和「向地方稅局申請房屋稅優惠」是兩件事，兩個都要做；逾期只能從下一期開始適用。'],
+    ['續約或改條件時，有重新申請','已核准的優惠，租約屆滿續約或變更條件都要重新提出。'],
+    ['房子的實際用途跟稅籍登記一致','「住家用改非住家用」是這次查稅的三大高風險之一，用途有變要主動申報。']],
+    after:'漏報租賃所得被查到，除了補稅還會被處罰鍰；房屋稅也會被當成一般非自住，適用較高稅率。'},
+   {h:'二、租約：用對版本、寫對條款',p:'住宅租賃全面適用消保法，契約條款違反內政部公告的應記載及不得記載事項，可能直接無效。',items:[
+    ['使用內政部公告的最新版「住宅租賃契約書」','最新版封面會印有「內政部 113 年 7 月 8 日」修正文號；書局舊版契約先核對再用。'],
+    ['給房客至少 3 天審閱期','且沒有要房客拋棄審閱期。'],
+    ['簽約時出示有權出租的證明','所有權狀，或轉租時原所有權人同意轉租的書面文件。'],
+    ['租期至少 30 天','而且在租期中沒有以任何理由調漲租金。'],
+    ['契約裡沒有禁止房客申請租金補貼','這是不得記載事項，房客申請補貼不需要房東同意。'],
+    ['簽約前說明由房東負責修繕的項目和範圍','並留好需要修繕時的聯絡方式。'],
+    ['出租廣告的內容跟事實相符','尤其是面積、屋齡、樓層和法定用途。']]},
+   {h:'三、押金、租金與電費',p:'電費是最常見的申訴來源。房東違規超收又不改正，可處 3 萬～30 萬元罰鍰，仍不改正可加重處 5 萬～50 萬元，並按次處罰。',items:[
+    ['押金沒有超過 2 個月租金總額',''],
+    ['租約結束、房客還屋並清償債務後，有返還押金','或抵充債務後把剩餘押金還給房客。押金是用來擔保損害賠償跟遺留物處理的，不能隨意扣。'],
+    ['按度收電費時，每度不超過電費單的「當期每度平均電價」','不按度計費的，收取總額不超過電費單的每期電費總金額。'],
+    ['公設電費沒有另外加收','公設電費沒有向台電申辦分攤併入租屋處電費的，房東不得額外收取。'],
+    ['有提供電費資訊給房客','或讓房客自己向台電查詢。'],
+    ['租金匯入的帳戶是契約上的出租人本人','收租紀錄完整保留，報稅和之後處理欠租都用得到。']]},
+   {h:'四、修繕、點交與終止租約',p:'房東可以提前終止租約的情形法律有限定，程序走錯，告到法院也可能被認定終止無效。',items:[
+    ['租期中有保持房子合於居住使用','房東負責的修繕沒有在房客定的期限內處理，房客可以自行修繕，再請房東償還或從租金扣除。'],
+    ['交屋和還屋都有會同點交屋況與設備','並拍照留存。一方不會同、經催告仍不出現，視為完成點交。'],
+    ['房客留下遺留物時，有先定期限催告','催告後仍不取回才視為拋棄，處理費用可以從押金扣除。'],
+    ['要提前終止租約，理由符合法定事由','房客損壞房屋或設備不修不賠、欠租達 2 個月經催告仍不繳、未經書面同意轉租、房東為重新建築而必要收回。'],
+    ['欠租要解約時，有先定相當期限催告','而且以保守做法確認「扣掉押金後仍欠達 2 個月」。法院對押金要不要先扣抵見解不一，11/13 新竹地院的案例就是先扣押金再計算。'],
+    ['終止租約用書面通知、附上事證，並趕在期限前送達','一般事由於終止前 30 天，重新建築收回於終止前 3 個月。建議用存證信函，留下送達證明。']]},
+   {h:'五、委託業者與政府優惠',p:'同一間房子、不同的出租方式，稅負可以差很多。下表數字以全國通則為主，各縣市地方稅另有減徵規定。',
+    table:[['出租方式','房屋稅稅率','綜所稅免稅額（每屋每月）','可扣必要費用','要注意的條件'],
+     ['自行出租，申報達租金標準','1.5%～2.4%（4 戶內 1.5%、5～6 戶 2%、7 戶以上 2.4%）','無','43%','3/22 前向地方稅務局申請'],
+     ['委託包租代管業者','2%，達租金標準 1.5%；不計入全國非自住戶數','6,000 元','6,000～2 萬元部分 53%，超過 2 萬元部分 43%','限個人房東，租約 1 年以上供居住'],
+     ['公益出租人','1.2%','15,000 元','43%','房客領租金補貼即自動認定；限合法建物；地價稅 2‰ 需 9/22 前主動申請'],
+     ['社宅包租代管','1.2%（部分縣市再減徵）','15,000 元','60%','限合法建物；另有公證費、保險費、修繕費補助']],
+    items:[
+    ['委託包租代管時，業者是合法登記的租賃住宅服務業','而且委託契約寫清楚代管的權限：哪些事業者可以決定、哪些要先問你。'],
+    ['轉租給包租業者時，有簽書面同意轉租','業者簽轉租約後 30 天內也要書面通知你。'],
+    ['房客有領租金補貼時，有確認自己是否已被認定為公益出租人','可上「公益出租人查詢網」，報稅時用對申報代號：公益出租人 74G、社宅包租 51R、社宅代管 74S。'],
+    ['租約上的出租人就是房屋所有權人','用家人名義出租，或共有房屋沒有全體共有人列名，都可能享不到公益出租優惠。']],
+    after:'公益出租和包租代管的稅費優惠都有實施年限，申請前請先向主管機關確認最新規定。'}],
+  upd:'2026 年 11 月',src:[
+   {t:'臺北市稅捐稽徵處：出租房屋最高省一半房屋稅（115/07/03）',u:'https://www.etax.nat.gov.tw/etwmain/announcement/news/1bVPB8n'},
+   {t:'臺北市稅捐稽徵處：申報租賃所得與申請優惠稅率是兩件事',u:'https://www.etax.nat.gov.tw/etwmain/announcement/news/OwVAwee'},
+   {t:'臺中市地方稅務局：114 年度當地一般租金標準說明',u:'https://www.etax.nat.gov.tw/etwmain/announcement/news/6ll70jD'},
+   {t:'花蓮縣地方稅務局：3 種住宅出租房屋稅優惠（115/10/28）',u:'https://www.etax.nat.gov.tw/etwmain/announcement/news/BrazrjD'},
+   {t:'財政部稅務入口網：房子出租（租賃所得 43%、押金設算）',u:'https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-knowledge/6BWQrRM'},
+   {t:'財政部稅務入口網：押金設算利率 114 年度 1.725%',u:'https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-q-and-a/national/individual-income-tax/alien-tax-question/taxation-scope/vq0Ka6Z'},
+   {t:'臺北市出租房屋租稅優惠一覽表',u:'https://www-ws.gov.taipei/001/Upload/336/relfile/16016/4068/3ad22b1d-9504-4f75-ac4a-7acd1101d08c.pdf'},
+   {t:'工商時報：國土署說明社宅包租代管與公益出租人申報代號（2026/04/30）',u:'https://www.ctee.com.tw/news/20260430701027-430104'},
+   {t:'《租賃住宅市場發展及管理條例》全文',u:'https://laws.gov.taipei/law/LawSearch/LawExport/FL087224?type=0'},
+   {t:'行政院：租屋電費新制核定重點',u:'https://www.ey.gov.tw/Page/F7408A6FCA4B0A8A/f1d73780-c42e-4aab-bc28-1b4bbaedccdd'},
+   {t:'內政部 113 年 7 月 8 日公告：住宅租賃定型化契約修正',u:'https://orgws.kcg.gov.tw/001/KcgOrgUploadFiles/314/relfile/68402/375703/61dd54cf-6fab-44e3-ad0e-20a32e01b229.pdf'},
+   {t:'政大：租屋電費新制 QA 房東篇',u:'https://ahs.nccu.edu.tw/resource/openfid.php?id=10122'},
+   {t:'法律百科：公益出租人稅賦優惠申請方式',u:'https://www.legis-pedia.com/article/1016/pdf'},
+   {t:'經濟日報：欠租終止租約是否先扣押金，法院見解分歧',u:'https://money.udn.com/money/story/5621/9348872'}]},
+ {id:'newcontract',kw:['契約','契約書','新版契約'],cat:'房東',title:'最新版住宅契約',desc:'新版契約怎麼認、去哪免費下載、每個欄位怎麼填才不吃虧。',
+  intro:'現行的內政部「住宅租賃契約書範本」，是 113 年 7 月 8 日修正的版本。最主要的改變是電費上限，自 113 年 7 月 15 日起生效。還在用書局舊版的房東，很可能沒有新的電費條款。',
+  lead:[['怎麼辨認新版','封面或第一頁印有「中華民國 113 年 7 月 8 日內政部台內地字第 1130263933 號函修正」。只印到 109 年文號的，就是舊版。'],['為什麼一定要換','「應記載事項」就算契約沒寫，也視為已經規定；契約裡寫了「不得記載事項」，該條就無效。用舊版不會讓房東省事，只會讓你以為有效的條款在爭議時不算數。']],
+  groups:[
+   {h:'下載連結',p:'以下都是政府機關提供的版本，免費下載。',
+    table:[['文件','版本','連結'],
+     ['內政部地政司「租賃條例專區」（法規、契約、書表都在這裡）','持續更新',{t:'前往專區',u:'https://www.land.moi.gov.tw/chhtml/news/89'}],
+     ['住宅租賃契約書範本（含附件）','113/7/8 修正',{t:'PDF（彰化縣地政）',u:'https://landoffice.chcg.gov.tw/files/住宅租賃契約書範本%201130708修正(1130809)_128_1130812.pdf'}],
+     ['住宅租賃契約書（可直接列印填寫版）','113/7/8 修正',{t:'PDF（彰化縣政府）',u:'https://files.chcg.gov.tw/files/9_20250204134933308_住宅租賃契約書(範本).pdf'}],
+     ['租屋電費新制常見問題（房東篇）','113/8/6 更新',{t:'PDF',u:'https://ahs.nccu.edu.tw/resource/openfid.php?id=10122'}]],
+    after:'契約書範本是參考用，可以依需求調整文字；但「應記載及不得記載事項」是強制規定，改寫時不能違反。應記載事項在 114 年 4 月 18 日又修正了第 18 點，簽約前可以到專區確認有沒有更新的範本。'},
+   {h:'填寫重點',p:'依契約書的順序整理，「常見錯誤」是房東最常填錯、之後最容易吃虧的地方。',
+    table:[['欄位','怎麼填','常見錯誤'],
+     ['契約審閱權','填房客攜回審閱的日期和天數（至少 3 天），雙方簽章','當場拿出、當場簽，沒給審閱期'],
+     ['立約人身分','勾選「所有權人」或「轉租人」；轉租人要出示原所有權人同意轉租的證明','用家人名義簽約，報稅、申請公益出租都會卡住'],
+     ['租賃標的','門牌、建號、面積照謄本填；如實勾選有無他項權利、查封登記；部分出租要附格局示意圖','面積和廣告不一致；套房沒標出租賃範圍'],
+     ['租賃期間','寫清楚起訖年月日，至少 30 天','只寫「一年」沒寫起訖日'],
+     ['租金','填每月金額、每期繳幾個月、繳款日；轉帳就填帳戶','寫「視情況調漲」：租期中不得調漲租金'],
+     ['押金','填幾個月、金額，最高 2 個月租金','收 3 個月以上'],
+     ['管理費','勾誰負擔、填金額','管理費因不可歸責雙方的原因調漲時，要房客全額負擔（漲的部分房客最多負擔 10%）'],
+     ['電費','按度計費二選一：依電費單「當期每度平均電價」，或約定每度固定金額但超過平均電價要在結算時退還；不按度計費的，收取總額不超過每期電費單總額','照舊習慣每度收 5～6 元；另外加收公設電費'],
+     ['轉租','勾「同意」或「不同意」；同意要另出具同意書（附件），寫明範圍、期間、可終止的事由','口頭同意、沒留書面'],
+     ['修繕','原則由房東負責；房客負責的項目要在「承租人負責修繕項目及範圍明細表」逐項寫清楚，並填修繕聯絡方式','寫「一切損壞由房客負責」：沒列明的項目，除非可歸責房客，都由房東修'],
+     ['租賃標的現況確認書','逐項勾選附屬設備、供水排水、管理委員會與管理費、是否曾發生非自然死亡','非自然死亡一欄沒有如實填，之後可能被求償']]},
+   {h:'簽約當天要準備的文件',items:['契約書一式兩份，雙方各執一份','所有權狀或建物謄本（證明你有權出租）；轉租時附原所有權人的同意轉租書面文件','雙方身分證件，核對姓名與契約一致','附件一「租賃標的現況確認書」，搭配交屋當天的屋況照片或影片','「承租人負責修繕項目及範圍明細表」，房東逐項填、房客確認','同意轉租時，附同意轉租書','租金收付款明細表，押金當場簽收'],
+    after:'簽好以後，契約是 3 月申請房屋稅出租優惠稅率時要附的文件，記得留好掃描檔。'}],
+  upd:'2026 年 11 月',src:[
+   {t:'住宅租賃契約書範本 113/7/8 修正（彰化縣地政處）',u:'https://landoffice.chcg.gov.tw/files/住宅租賃契約書範本%201130708修正(1130809)_128_1130812.pdf'},
+   {t:'住宅租賃契約書（彰化縣政府）',u:'https://files.chcg.gov.tw/files/9_20250204134933308_住宅租賃契約書(範本).pdf'},
+   {t:'內政部 113 年 7 月 8 日公告：應記載事項第 6、11 點修正，113/7/15 生效',u:'https://orgws.kcg.gov.tw/001/KcgOrgUploadFiles/314/relfile/68402/375703/61dd54cf-6fab-44e3-ad0e-20a32e01b229.pdf'},
+   {t:'行政院：住宅租賃定型化契約應記載及不得記載事項（含 114/4/18 修正）',u:'https://www.ey.gov.tw/Page/DFB720D019CCCB0A/478917df-7599-418f-8715-fd2716b623b4'},
+   {t:'新北市新莊地政：新舊版契約辨別與效力說明',u:'https://www-ws.land.ntpc.gov.tw/001/Upload/407/relfile/9040/9011/e390b2e8-cc06-4cf3-b5e0-7902e2e57201.pdf'},
+   {t:'政大：租屋電費新制 QA 房東篇',u:'https://ahs.nccu.edu.tw/resource/openfid.php?id=10122'},
+   {t:'《租賃住宅市場發展及管理條例》全文',u:'https://laws.gov.taipei/law/LawSearch/LawExport/FL087224?type=0'}]},
+ {off:true,id:'studio',kw:['工作室','美業','美甲','美容'],cat:'工作室',title:'美業工作室選址清單',desc:'開美甲、美睫、美容工作室前，空間一定要問的事。',items:['有沒有獨立衛浴或淋浴（做身體類很重要）','電量夠不夠：烘燈、蒸臉機、冷氣同時開','可不可以掛招牌、在網路公開地址','客人停車與大眾運輸方不方便','有沒有門禁、監視器，晚上客人進出安全','隔音如何：聊天、音樂會不會吵到鄰居','能否開立租金收據、登記營業地址','水電、管理費是不是固定價，好抓成本']},
+ {off:true,id:'cost',kw:['成本','預算','開店'],cat:'工作室',title:'工作室每月成本試算表',desc:'用 Room8 A 室舉例，算出每月固定開銷。',items:['租金 $6,800','水、瓦斯、垃圾 $600','管理費 $400','電費均一 $1,000','小計 $8,800／月（不含耗材與網路行銷）','再加上耗材、預約系統、廣告費，抓出每月要接幾位客人才打平']},
+ {off:true,id:'moving',kw:['搬家','入住','點交'],cat:'生活',title:'搬家入住清單',desc:'從打包到入住第一晚，照順序做不慌亂。',items:['搬家前兩週：預約搬家公司或借車','前一週：辦理地址變更、網路移機','打包時每箱標房間與內容','入住當天：先拍屋況照片和影片','確認水、電、瓦斯錶數字並拍照','換門鎖密碼、確認鑰匙數量','第一晚必備：床單、盥洗用品、手機充電']},
+ {off:true,id:'buy',kw:['買房','購屋','買賣'],cat:'買賣',title:'第一次買房準備清單',desc:'看房前先算清楚，談價時更有底氣。',items:['先算自備款：頭期款＋契稅、代書、仲介等費用','到銀行試算可貸成數與每月房貸','查實價登錄，看同社區近期成交價','看屋況：漏水、結構、管線年份','確認有無違建、頂加或使用分區問題','簽約前確認履約保證','需要協助可預約 Room8 心寓買賣諮詢']}
+];
+const LISTS=ALL_LISTS.filter(l=>!l.off);
+/* ======================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const lineFor=k=>(LINES[k]&&LINES[k].url)||LINES.tenant.url;
+const lineUrl=LINES.tenant.url;
+{const ph=(p,ht)=>'<div class="ph" style="'+(ht?'height:'+ht+'px;':'')+'background-color:'+esc(p.color||'#ddd')+(p.img?';background-image:url(\''+encodeURI(p.img)+'\')':'')+'" role="img" aria-label="'+esc(p.label)+'"></div>';
+ const g=$('#gallery'),n=PHOTOS.length;g.classList.add(GALLERY_MODE);
+ if(GALLERY_MODE==='reel'){
+  const s=PHOTOS.map(p=>ph(p)).join('');g.innerHTML='<div class="track" style="--n:'+n+';animation-duration:'+n*4+'s">'+s+s+'</div>';
+ }else if(GALLERY_MODE==='wall'){
+  const HS=[220,160,200,240,180,150,210,170];
+  const col=k=>{const s=PHOTOS.map((p,i)=>[p,i]).filter(([,i])=>i%2===k).map(([p,i])=>ph(p,HS[i%HS.length])).join('');return s+s};
+  g.innerHTML='<div class="gcol up"><div class="track">'+col(0)+'</div></div><div class="gcol down"><div class="track">'+col(1)+'</div></div>';
+ }else{
+  g.setAttribute('aria-roledescription','輪播');
+  g.innerHTML='<div class="track" id="gtrack">'+PHOTOS.map(p=>ph(p)).join('')+ph(PHOTOS[0])+'</div><div class="dots" id="gdots">'+PHOTOS.map((p,k)=>'<button aria-label="第 '+(k+1)+' 張：'+esc(p.label)+'"></button>').join('')+'</div>';
+  const tr=$('#gtrack'),dots=$('#gdots');let i=0,tm;
+  const paint=()=>[...dots.children].forEach((b,k)=>b.setAttribute('aria-current',k===i%n));
+  const go=k=>{i=k;tr.classList.remove('jump');tr.style.transform='translateY(-'+i*100+'%)';paint()};
+  tr.addEventListener('transitionend',()=>{if(i>=n){tr.classList.add('jump');i=0;tr.style.transform='translateY(0)';tr.offsetHeight;tr.classList.remove('jump');paint()}});
+  const next=()=>{if(matchMedia('(prefers-reduced-motion:reduce)').matches)go((i+1)%n);else go(i+1)};
+  const play=()=>{clearInterval(tm);tm=setInterval(next,3500)};
+  dots.onclick=e=>{const b=e.target.closest('button');if(b){go([...dots.children].indexOf(b));play()}};
+  g.addEventListener('mouseenter',()=>clearInterval(tm));g.addEventListener('mouseleave',play);
+  paint();play();
+ }}
+if(LINES.landlord.url){$('#ownerCta').href=LINES.landlord.url;$('#ownerCta2').href=LINES.landlord.url}
+$('#featMore').addEventListener('click',e=>{const f=$('#feat'),open=f.classList.toggle('fold')===false;e.currentTarget.setAttribute('aria-expanded',open);e.currentTarget.textContent=open?'收合':'顯示更多'});
+$('#featMore').textContent='顯示更多';
+$('#roomBook').addEventListener('click',()=>{$('#bType').value='商務／辦公空間';$('#bType').dispatchEvent(new Event('input'))});
+/* 公司資訊：留空 '' 的項目不會顯示 */
+const COMPANY=[['公司名稱','唐昕空間設計有限公司'],['統一編號','94167306'],['地址','105 臺北市松山區東勢里南京東路四段 75 號 4 樓之 1'],['不動產經紀人','廖凱恩（114）新北經字第 004875 號'],['不動產營業員','蔡昕諭（112）登字第 446964 號']];
+$('#legal').innerHTML=COMPANY.filter(c=>c[1]).map(c=>'<span>'+esc(c[0])+'：'+esc(c[1])+'</span>').join('');
+$('#toTop').addEventListener('click',e=>{e.preventDefault();scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})});
+$('#tel1').textContent=CONTACT.tel1;$('#tel2').textContent=CONTACT.tel2;
+$('#who').innerHTML=Object.values(LINES).map(l=>'<div class="card'+(l.url?'':' soon')+'"><div class="kw">'+esc(l.name)+'</div><h3>'+esc(l.who)+'</h3><p>'+esc(l.desc)+'</p>'+(l.url?'<a class="btn line" href="'+esc(l.url)+'" target="_blank" rel="noopener">加入 LINE</a>':'<span class="btn">即將開放</span>')+'</div>').join('');
+const soc=SOCIAL.filter(s=>s.url||!s.hide).map(s=>s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.name)+'</a>':'<span>'+esc(s.name)+' 即將上線</span>').join('');
+$('#socials').innerHTML=soc;
+$('#socials2').innerHTML=soc;
+const bookKey=()=>{const t=$('#bType').value;return /工作室|商務/.test(t)?'office':/房東/.test(t)?'landlord':'tenant'};
+const syncBook=()=>{$('#lineBtn2').href=lineFor(bookKey())};
+$('#bType').addEventListener('change',syncBook);
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),1800)};
+const copy=async txt=>{try{await navigator.clipboard.writeText(txt);toast('已複製')}catch(e){toast('請長按文字手動複製')}};
+const find=q=>{q=q.trim().replace(/^[#＃]/,'');if(!q)return null;return LISTS.find(l=>l.id===q||l.kw.some(k=>q.includes(k)||k.includes(q))||l.title.includes(q))};
+const flat=x=>Array.isArray(x)?x[0]+(x[1]?'：'+x[1]:''):x;
+const asText=l=>l.title+'\n'+(l.groups?(l.lead?'\n'+l.lead.map(x=>x[0]+'：'+x[1]).join('\n')+'\n':'')+l.groups.map(g=>'\n'+g.h+(g.table?'\n'+g.table.slice(1).map(rw=>'・'+rw.map(c=>c&&typeof c==='object'?c.t+' '+c.u:c).join('｜')).join('\n'):'')+(g.items?'\n'+g.items.map(x=>'□ '+flat(x)).join('\n'):'')).join('\n'):l.items.map((x,i)=>(i+1)+'. '+flat(x)).join('\n'))+(l.src?'\n\n官方資料（'+l.upd+'）：\n'+l.src.map(s=>s.t+' '+s.u).join('\n'):'')+'\n\n— Room8 心寓';
+function show(l,q){
+  const r=$('#result');
+  if(!l){r.innerHTML='<div class="res miss">找不到「'+esc(q)+'」的清單。試試下面的熱門關鍵字，或到「聯絡我們」加 LINE 直接問我們。</div>';return}
+  r.innerHTML='';
+  const srcs=l.src?'<p class="srcs">資料更新：'+esc(l.upd)+'｜'+(l.groups?'資料來源：':'官方資料：')+l.src.map(s=>'<a href="'+esc(s.u)+'" target="_blank" rel="noopener">'+esc(s.t)+'</a>').join('、')+'</p>':'';
+  const li=x=>Array.isArray(x)?'<li><b>'+esc(x[0])+'</b>'+(x[1]?'：'+esc(x[1]):'')+'</li>':'<li>'+esc(x)+'</li>';
+  const tbl=t=>'<div class="scroll"><table class="tx"><thead><tr>'+t[0].map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr></thead><tbody>'+t.slice(1).map(rw=>'<tr>'+rw.map((c,k)=>'<td data-l="'+esc(t[0][k])+'">'+(c&&typeof c==='object'?'<a href="'+esc(c.u)+'" target="_blank" rel="noopener">'+esc(c.t)+'</a>':esc(c))+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';
+  const body=l.groups?(l.intro?'<p>'+esc(l.intro)+'</p>':'')+(l.lead?l.lead.map(x=>'<p><b>'+esc(x[0])+'：</b>'+esc(x[1])+'</p>').join(''):'')+(l.tip?'<p class="tipbox"><b>小提醒</b><br>'+esc(l.tip)+'</p>':'')+l.groups.map(g=>'<h4>'+esc(g.h)+'</h4>'+(g.p?'<p>'+esc(g.p)+'</p>':'')+(g.table?tbl(g.table):'')+(g.items?'<ol class="chk">'+g.items.map(li).join('')+'</ol>':'')+(g.after?'<p class="mute">'+esc(g.after)+'</p>':'')).join(''):'<p>'+esc(l.desc)+'</p><ol>'+l.items.map(li).join('')+'</ol>';
+  const lk=l.cat==='工作室'?'office':l.cat==='房東'?'landlord':'tenant';
+  const acts='<div class="acts"><button class="ghost cp">複製清單</button><button class="ghost cl">複製分享連結</button><a class="btn line" target="_blank" rel="noopener" href="'+esc(lineFor(lk))+'">加 LINE 問細節</a></div>';
+  $('#listBody').innerHTML='<div class="kwtag">留言關鍵字：'+l.kw.map(esc).join('、')+'</div><h1>'+esc(l.title)+'</h1><div class="res">'+body+acts+srcs+'</div>';
+  document.querySelectorAll('#listBody .cp').forEach(b=>b.onclick=()=>copy(asText(l)));
+  document.querySelectorAll('#listBody .cl').forEach(b=>b.onclick=()=>copy(location.href.split('#')[0]+'#'+l.id));
+  document.title=l.title+'｜Room8 心寓';
+}
+const homeEls=()=>[...document.querySelectorAll('body > header.hero, body > section:not(#listView)')];
+function route(){
+  const id=location.hash.slice(1);const l=LISTS.find(x=>x.id===id);
+  if(l){homeEls().forEach(e=>e.hidden=true);$('#listView').hidden=false;show(l);scrollTo(0,0);return}
+  $('#listView').hidden=true;homeEls().forEach(e=>e.hidden=false);document.title='Room8心寓官方網站';
+  const t=id&&document.getElementById(id);if(t)t.scrollIntoView();
+}
+function open(q){const l=find(q);if(!l){show(null,q);return}$('#result').innerHTML='';if(location.hash==='#'+l.id)route();else location.hash=l.id}
+$('#go').onclick=()=>open($('#kw').value);
+$('#kw').addEventListener('keydown',e=>{if(e.key==='Enter')open(e.target.value)});
+$('#chips').innerHTML=LISTS.map(l=>'<a class="chip" href="#'+l.id+'">'+esc(l.kw[0])+'</a>').join('');
+const cats=['全部',...new Set(LISTS.map(l=>l.cat))];let cur='全部';
+function grid(){
+  $('#filters').hidden=cats.length<=2;
+  $('#filters').innerHTML=cats.map(c=>'<button aria-pressed="'+(c===cur)+'" data-c="'+esc(c)+'">'+esc(c)+'</button>').join('');
+  $('#grid').innerHTML=LISTS.filter(l=>cur==='全部'||l.cat===cur).map(l=>'<div class="card"><div class="kw">留言關鍵字：'+l.kw.slice(0,2).map(esc).join('、')+'</div><h3>'+esc(l.title).replace('（','<br class="mbr">（')+'</h3><p>'+esc(l.desc)+'</p><a class="btn ghost2" href="#'+l.id+'" aria-label="打開'+esc(l.title)+'"><span>打開</span><span>清單</span></a></div>').join('');
+}
+$('#filters').onclick=e=>{const b=e.target.closest('button');if(b){cur=b.dataset.c;grid()}};
+grid();
+addEventListener('hashchange',route);route();
+const fields=['lType','oCo','oType','bType','bName','bTel','bJob','bAge','bSmoke','bPet','bPetNote','bPpl','bRel','bDate','bTerm','bBudget','bNote'];
+const WD='日一二三四五六';
+const pad=n=>String(n).padStart(2,'0');
+const DAYS=[...Array(10)].map((_,i)=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+i+1);return{iso:d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),lab:(d.getMonth()+1)+'/'+d.getDate(),wd:WD[d.getDay()],we:d.getDay()%6===0}});
+$('#days').innerHTML=DAYS.map(d=>'<div class="day'+(d.we?' we':'')+'"><b>'+d.lab+' <small>('+d.wd+')</small></b><div class="ap"><button type="button" class="tg" data-d="'+d.iso+'" data-p="上午" aria-pressed="false">上午</button><button type="button" class="tg" data-d="'+d.iso+'" data-p="下午" aria-pressed="false">下午</button></div></div>').join('');
+const saveT=()=>{try{const d=JSON.parse(localStorage.getItem('r8book')||'{}');d.slots=[...document.querySelectorAll('#timeBox .tg[aria-pressed=true]')].map(b=>b.dataset.q||b.dataset.d+'|'+b.dataset.p);localStorage.setItem('r8book',JSON.stringify(d))}catch(e){}};
+$('#timeBox').addEventListener('click',e=>{const b=e.target.closest('.tg');if(!b)return;b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')==='true'?'false':'true');saveT()});
+const timeText=()=>{
+  const q=[...document.querySelectorAll('#quick .tg[aria-pressed=true]')].map(b=>b.dataset.q);
+  const ds=DAYS.map(d=>{const ps=[...document.querySelectorAll('#days .tg[data-d="'+d.iso+'"][aria-pressed=true]')].map(b=>b.dataset.p);return ps.length?d.lab+'('+d.wd+')'+(ps.length===2?'':ps[0]):''}).filter(Boolean);
+  return [...q,...ds].join('、');
+};
+const isRent=()=>/住宅/.test($('#bType').value);
+const isOffice=()=>/商務/.test($('#bType').value);
+const syncForm=()=>{$('#tenantBox').hidden=!isRent();const of=isOffice();$('#officeBox').hidden=!of;const ld=/房東/.test($('#bType').value);$('#landBox').hidden=!ld;$('#lName').textContent=of?'3. 承租負責人姓名':ld?'2. 姓名':'1. 姓名';$('#lTel').textContent=of?'4. 聯絡電話':ld?'3. 電話':'2. 電話';$('#petWrap').hidden=$('#bPet').value!=='有';$('#relWrap').hidden=!(+$('#bPpl').value>1);syncBook()};
+try{const d=JSON.parse(localStorage.getItem('r8book')||'{}');fields.forEach(f=>{if(d[f])$('#'+f).value=d[f]});(d.slots||[]).forEach(s=>{const [a,p]=s.split('|');const b=p?document.querySelector('#days .tg[data-d="'+a+'"][data-p="'+p+'"]'):document.querySelector('#quick .tg[data-q="'+a+'"]');if(b)b.setAttribute('aria-pressed','true')});(d.needs||[]).forEach(n=>{const c=[...document.querySelectorAll('.bNeed')].find(x=>x.value===n);if(c)c.checked=true})}catch(e){}
+if(!$('#bType').value)$('#bType').selectedIndex=0;
+syncForm();
+['bType','bPet','bPpl','oType'].forEach(id=>$('#'+id).addEventListener('input',syncForm));
+const needs=()=>[...document.querySelectorAll('.bNeed:checked')].map(c=>c.value);
+$('#bookForm').addEventListener('input',()=>{try{const d=Object.fromEntries(fields.map(f=>[f,$('#'+f).value]));d.needs=needs();try{d.slots=JSON.parse(localStorage.getItem('r8book')||'{}').slots||[]}catch(e){}localStorage.setItem('r8book',JSON.stringify(d))}catch(e){}});
+$('#bookForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const v=f=>$('#'+f).value.trim();
+  let msg;
+  if(isOffice()){
+    const miss=[['oCo','從事行業'],['oType','租借內容']].filter(([f])=>!v(f)).map(x=>x[1]);
+    if(miss.length){$('#bWarn').textContent='還沒填：'+miss.join('、');$('#bWarn').hidden=false;$('#bookOut').innerHTML='';return}
+    $('#bWarn').hidden=true;
+    msg='您好，我想詢問「商務／辦公空間」\n從事行業：'+v('oCo')+'\n租借內容：'+v('oType')+'\n承租負責人姓名：'+v('bName')+'\n聯絡電話：'+v('bTel')+'\n方便看房時段：'+(timeText()||'皆可，請與我聯絡')+(v('bNote')?'\n補充：'+v('bNote'):'');
+  }else if(isRent()){
+    const miss=[['bJob','職業'],['bAge','年齡'],['bSmoke','是否抽菸'],['bPet','是否養寵物'],['bPpl','入住人數'],['bDate','預計入住日'],['bTerm','預計租期'],['bBudget','預算']].filter(([f])=>!v(f)).map(x=>x[1]);
+    if(miss.length){$('#bWarn').textContent='還沒填：'+miss.join('、')+'（完整回答能更快媒合房東）';$('#bWarn').hidden=false;$('#bookOut').innerHTML='';return}
+    $('#bWarn').hidden=true;
+    const pet=v('bPet')==='有'?'有，'+(v('bPetNote')||'未填種類'):'否';
+    const ppl=+v('bPpl');
+    msg='您好，我想預約看「'+v('bType')+'」\n1. 姓名：'+v('bName')+'\n2. 電話：'+v('bTel')+'\n3. 職業：'+v('bJob')+'\n4. 年齡：'+v('bAge')+'\n5. 是否有抽菸：'+v('bSmoke')+'\n6. 是否有養寵物：'+pet+'\n7. 入住人數：'+ppl+' 人\n8. 預計入住日：'+v('bDate')+'\n9. 同住人關係：'+(ppl>1?(v('bRel')||'未填'):'無同住人')+'\n10. 預計租期：'+v('bTerm')+'\n11. 預算：'+v('bBudget')+'\n12. 其他需求：'+(needs().join('、')||'無')+'\n方便看房時段：'+(timeText()||'皆可，請與我聯絡')+(v('bNote')?'\n補充：'+v('bNote'):'');
+  }else{
+    if(!v('lType')){$('#bWarn').textContent='還沒填：委託方式';$('#bWarn').hidden=false;$('#bookOut').innerHTML='';return}
+    $('#bWarn').hidden=true;
+    msg='您好，我想諮詢「'+v('bType')+'」\n委託方式：'+v('lType').replace(/（.*）/,'')+'\n姓名：'+v('bName')+'\n電話：'+v('bTel')+'\n方便聯絡時段：'+(timeText()||'皆可')+(v('bNote')?'\n補充：'+v('bNote'):'');
+  }
+  $('#bookOut').innerHTML='<div class="out" id="msg"></div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px"><button type="button" id="cpm">複製訊息</button><a class="btn line" target="_blank" rel="noopener" href="'+esc(lineFor(bookKey()))+'">貼到 LINE 傳送</a></div>';
+  $('#msg').textContent=msg;$('#cpm').onclick=()=>copy(msg);
+});
+}
+</script>
+</body>
+</html>
